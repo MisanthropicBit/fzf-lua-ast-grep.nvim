@@ -1,0 +1,1 @@
+---@alias fzf-lua-ast-grep.Options fzf-lua-ast-grep.Config
