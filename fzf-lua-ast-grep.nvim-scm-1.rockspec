@@ -34,6 +34,7 @@ build = {
 
 test_dependencies = {
     "busted >= 2.2.0, < 3.0.0",
+    "fzf-lua >= 0.0.1677, < 0.1",
 }
 
 test = {

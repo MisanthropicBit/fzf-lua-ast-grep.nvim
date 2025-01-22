@@ -24,7 +24,7 @@ end
 ---@param options fzf-lua-ast-grep.Options?
 function fzf_lua_ast_grep.ast_live_grep(options)
     local fzf_options =
-        vim.tbl_extend("force", config.fzf_options, options and options.fzf_options or {})
+        vim.tbl_deep_extend("force", config.fzf_options, options and options.fzf_options or {})
 
     local base_command = ("%s %s"):format(
         config.ast_grep_options.command,
