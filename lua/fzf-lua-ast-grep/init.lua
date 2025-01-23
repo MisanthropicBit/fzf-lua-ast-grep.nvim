@@ -40,9 +40,6 @@ function fzf_lua_ast_grep.ast_live_grep(options)
     fzf_options.__FNCREF__ = fzf_options.__FNCREF__ or fzf_lua.utils.__FNCREF__()
     fzf_options.query = fzf_options.query or fzf_lua.config.__resume_data.last_query
 
-    -- TODO: prepend prompt with "*" to indicate "live" query
-    -- https://github.com/ibhagwan/fzf-lua/blob/6f7249741168c0751356e3b6c5c1e3bade833b6b/lua/fzf-lua/providers/grep.lua#L213C1-L217
-
     -- Prepend prompt with "*" to indicate "live" query
     fzf_options.prompt = type(fzf_options.prompt) == "string" and fzf_options.prompt or "> "
 
