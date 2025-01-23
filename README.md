@@ -3,15 +3,16 @@
   <h1>fzf-lua-ast-grep.nvim</h1>
   <p><i>fzf-lua.nvim plugin for using ast-grep</i></p>
   <p>
-    <img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat-square" />
+    <img src="https://img.shields.io/badge/version-0.1.0-blue?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Neovim-0.9.0-629751?style=for-the-badge&logo=neovim" />
     <a href="https://luarocks.org/modules/misanthropicbit/fzf-lua-ast-grep.nvim">
-        <img src="https://img.shields.io/luarocks/v/misanthropicbit/fzf-lua-ast-grep.nvim?logo=lua&color=purple&style=flat-square" />
+        <img src="https://img.shields.io/luarocks/v/misanthropicbit/fzf-lua-ast-grep.nvim?logo=lua&color=purple&style=for-the-badge" />
     </a>
     <a href="/.github/workflows/tests.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/MisanthropicBit/fzf-lua-ast-grep.nvim/tests.yml?branch=master&style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/MisanthropicBit/fzf-lua-ast-grep.nvim/tests.yml?branch=master&style=for-the-badge" />
     </a>
     <a href="/LICENSE">
-        <img src="https://img.shields.io/github/license/MisanthropicBit/fzf-lua-ast-grep.nvim?style=flat-square" />
+        <img src="https://img.shields.io/github/license/MisanthropicBit/fzf-lua-ast-grep.nvim?style=for-the-badge" />
     </a>
   </p>
   <br />
