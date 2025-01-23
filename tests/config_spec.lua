@@ -4,7 +4,13 @@ local stub = require("luassert.stub")
 
 describe("config", function()
     it("handles invalid configs", function()
-        local invalid_configs = {}
+        local invalid_configs = {
+            { fzf_options = true },
+            { ast_grep_options = { command = "" } },
+            { ast_grep_options = { command = 1 } },
+            { ast_grep_options = { command = "sg", args = 1 } },
+            { ast_grep_options = { command = "sg", args = { "a", true } } },
+        }
 
         stub(message, "error")
 

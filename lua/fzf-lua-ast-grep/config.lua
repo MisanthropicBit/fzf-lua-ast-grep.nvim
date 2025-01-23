@@ -1,5 +1,6 @@
 local config = {}
 
+local message = require("fzf-lua-ast-grep.message")
 local fzf_lua = require("fzf-lua")
 
 ---@class fzf-lua-ast-grep.AstGrepOptions
@@ -54,30 +55,29 @@ function config.valid_string_option(value)
     return value ~= nil and type(value) == "string" and #value > 0
 end
 
-local function is_positive_non_zero_number(value)
-    return type(value) == "number" and value > 0
-end
-
 local function is_non_empty_string(value)
     return type(value) == "string" and #value > 0
 end
 
 ---@param element_type "number" | "string"
----@return fun(value: unknown): boolean
-local function array_validator(element_type)
-    return function(value)
-        if not vim.islist(value) then
-            return false
-        end
-
-        for _, element in ipairs(value) do
-            if type(element) ~= element_type then
+---@return [fun(value: unknown): boolean, string]
+local function create_array_validator(element_type)
+    return {
+        function(value)
+            if not vim.islist(value) then
                 return false
             end
-        end
 
-        return true
-    end
+            for _, element in ipairs(value) do
+                if type(element) ~= element_type then
+                    return false
+                end
+            end
+
+            return true
+        end,
+        "Expected an array of " .. element_type,
+    }
 end
 
 ---@param object table<string, unknown>
@@ -116,11 +116,7 @@ local function validate_schema(object, schema)
 end
 
 local expected_non_empty_string = "Expected a non-empty string"
-
 local non_empty_string_validator = { is_non_empty_string, expected_non_empty_string }
-
-local is_positive_non_zero_number_validator =
-    { is_positive_non_zero_number, "a positive, non-zero number" }
 
 --- Validate a config
 ---@param _config fzf-lua-ast-grep.Config
@@ -129,15 +125,13 @@ local is_positive_non_zero_number_validator =
 function config.validate(_config)
     -- TODO: Validate superfluous keys
 
-    -- stylua: ignore start
     local config_schema = {
-        fzf_options = {},
+        fzf_options = "table",
         ast_grep_options = {
             command = non_empty_string_validator,
-            args = array_validator("string"),
+            args = create_array_validator("string"),
         },
     }
-    -- stylua: ignore end
 
     local errors = validate_schema(_config, config_schema)
 
@@ -160,7 +154,7 @@ function config.configure(user_config)
     local ok, error = config.validate(_user_config)
 
     if not ok then
-        -- message.error("Errors found in config: " .. table.concat(error, "\n"))
+        message.error("Errors found in config: " .. table.concat(error, "\n"))
     else
         config_loaded = true
     end
