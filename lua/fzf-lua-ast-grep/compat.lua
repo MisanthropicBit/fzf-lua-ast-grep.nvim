@@ -13,5 +13,4 @@ else
     compat.islist = vim.tbl_islist
 end
 
-
 return compat

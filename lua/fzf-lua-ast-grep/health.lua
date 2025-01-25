@@ -27,7 +27,9 @@ function health.check()
     if vim.v.shell_error == 0 then
         local ast_grep_path = vim.fn.exepath("sg")
 
-        vim.health.ok(("%s installed (%s)"):format(vim.fn.trim(ast_grep_version, "\n", 2), ast_grep_path))
+        vim.health.ok(
+            ("%s installed (%s)"):format(vim.fn.trim(ast_grep_version, "\n", 2), ast_grep_path)
+        )
     else
         vim.health.error("ast-grep not installed or not available on path")
     end
