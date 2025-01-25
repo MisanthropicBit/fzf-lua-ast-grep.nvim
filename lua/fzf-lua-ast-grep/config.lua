@@ -1,5 +1,6 @@
 local config = {}
 
+local compat = require("fzf-lua-ast-grep.compat")
 local message = require("fzf-lua-ast-grep.message")
 local fzf_lua = require("fzf-lua")
 
@@ -64,7 +65,7 @@ end
 local function create_array_validator(element_type)
     return {
         function(value)
-            if not vim.islist(value) then
+            if not compat.islist(value) then
                 return false
             end
 
