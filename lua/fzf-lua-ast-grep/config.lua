@@ -1,5 +1,6 @@
 local config = {}
 
+local actions = require("fzf-lua-ast-grep.actions")
 local compat = require("fzf-lua-ast-grep.compat")
 local message = require("fzf-lua-ast-grep.message")
 local fzf_lua = require("fzf-lua")
@@ -9,42 +10,48 @@ local fzf_lua = require("fzf-lua")
 ---@field args string[]
 
 ---@class fzf-lua-ast-grep.Config
----@field fzf_options      table<string, unknown>
+---@field fzf_lua_options  table<string, unknown>
 ---@field ast_grep_options fzf-lua-ast-grep.AstGrepOptions
 
 local config_loaded = false
 
 ---@type fzf-lua-ast-grep.Config
 local default_config = {
-    fzf_options = {
+    fzf_lua_options = {
         prompt = "Grep AST> ",
-        fn_transform = function(entry)
-            return fzf_lua.make_entry.file(entry, {
-                file_icons = true,
-                color_icons = true,
-            })
-        end,
+        -- fn_transform = function(entry)
+        --     return fzf_lua.make_entry.file(entry, {
+        --         file_icons = true,
+        --         color_icons = true,
+        --     })
+        -- end,
         previewer = "builtin",
+        headers = { "cwd", "actions" },
         actions = {
             ["enter"] = fzf_lua.actions.file_edit,
             ["ctrl-s"] = fzf_lua.actions.file_split,
             ["ctrl-v"] = fzf_lua.actions.file_vsplit,
             ["ctrl-t"] = fzf_lua.actions.file_tabedit,
-            ["ctrl-r"] = {}, -- Regex search file results
-            ["ctrl-f"] = {}, -- Filter file results by name
+            ["ctrl-g"] = {
+                fn = actions.ast_live_grep_grep,
+                header = actions.description,
+            },
+            -- ["ctrl-r"] = {}, -- Regex search file results
+            -- ["ctrl-f"] = {}, -- Filter file results by name
             ["ctrl-q"] = { -- Send all results to the quickfix list
                 fn = fzf_lua.actions.file_edit_or_qf,
                 prefix = "select-all+",
             },
         },
+        fzf_opts = {},
     },
     ast_grep_options = {
         command = "sg",
+        -- TODO: Check that users do not pass '--pattern' here or support '<query>'
         args = {
             "run",
             "--color=always",
             "--heading=never",
-            "--pattern",
         },
     },
 }
@@ -127,7 +134,7 @@ function config.validate(_config)
     -- TODO: Validate superfluous keys
 
     local config_schema = {
-        fzf_options = "table",
+        fzf_lua_options = "table",
         ast_grep_options = {
             command = non_empty_string_validator,
             args = create_array_validator("string"),
